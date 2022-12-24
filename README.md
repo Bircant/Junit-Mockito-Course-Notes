@@ -2,13 +2,13 @@
 Udemy - Learn Java Unit Testing with Junit &amp; Mockito in 30 Steps Course Notes
 
 Eclipse shortcuts - refactoring in Eclipse:
-Rename Alt+Shift+R.
-Rename the package, classes and interfaces from the Project Explorer view by pressing F2
-Extract method => Alt+Shift+M
-Refactor > Extract Local Variable
-Refactor > Extract Constant
-Inline => Alt+Shift+I
-Refactor > Change Method Signature = Alt+Shift+C.
+- Rename Alt+Shift+R.
+- Rename the package, classes and interfaces from the Project Explorer view by pressing F2
+- Extract method => Alt+Shift+M
+- Refactor > Extract Local Variable
+-Refactor > Extract Constant
+-Inline => Alt+Shift+I
+-Refactor > Change Method Signature = Alt+Shift+C.
 
 Notes:
 - Test methods should be public and void
