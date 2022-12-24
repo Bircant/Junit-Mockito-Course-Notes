@@ -1,7 +1,7 @@
 # Junit-Mockito-Course-Notes
 Udemy - Learn Java Unit Testing with Junit &amp; Mockito in 30 Steps Course Notes
 
-Eclipse shortcuts - refactoring in Eclipse:
++ Eclipse shortcuts - refactoring in Eclipse:
 - Rename Alt+Shift+R.
 - Rename the package, classes and interfaces from the Project Explorer view by pressing F2
 - Extract method => Alt+Shift+M
@@ -11,8 +11,8 @@ Eclipse shortcuts - refactoring in Eclipse:
 - Refactor > Change Method Signature = Alt+Shift+C.
 - Ctrl + 1 on errors
 
-Notes:
-Introduction and Unit Testing with JUnit
++ Notes:
++ Introduction and Unit Testing with JUnit
 - Test methods should be public and void
 - Testing only one unit test => highlight the name of the method and select run as junit test
 - assertEquals, assertFalse, assertTrue, assertArrayEquals( Comparing arrays, values), 
@@ -51,7 +51,7 @@ Introduction and Unit Testing with JUnit
  ``` 
  - JUnit Test Suite - choose which classes should include in suite for organization.
       
-Getting Ready for Mockito and Need For Mockito:
++ Getting Ready for Mockito and Need For Mockito:
 - SUT (System Under Test), Dependency
 - Stub - class that returns dummy data
 - Stub Example - Test cases couple tightly due to the hard-coding of data.:
@@ -124,3 +124,4 @@ public class TodoBusinessImplStubTest {
 		assertEquals(2, todos.size());
         ``` 
       
++ Mockito Basics:
