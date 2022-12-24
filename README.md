@@ -236,7 +236,7 @@ public class TodoBusinessImplStubTest {
 	}
    ```
   - How to capture an argument which is passed to a mock?
-  Calling once:
+Calling once:
   ```
   	@Test
 	public void captureArgument() {
