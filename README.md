@@ -125,3 +125,156 @@ public class TodoBusinessImplStubTest {
         ``` 
       
 # Mockito Basics:
+- Mock List:
+ ``` 
+ public class ListTest {
+
+	@Test
+	public void letsMockListSize() {
+		List list = mock(List.class);
+		Mockito.when(list.size()).thenReturn(10);
+		assertEquals(10, list.size());
+	}
+
+	@Test
+	public void letsMockListSizeWithMultipleReturnValues() {
+		List list = mock(List.class);
+		Mockito.when(list.size()).thenReturn(10).thenReturn(20);
+		assertEquals(10, list.size()); // First Call
+		assertEquals(20, list.size()); // Second Call
+	}
+
+	@Test
+	public void letsMockListGet() {
+		List<String> list = mock(List.class);
+		Mockito.when(list.get(0)).thenReturn("in28Minutes");
+		assertEquals("in28Minutes", list.get(0));
+		assertNull(list.get(1));
+	}
+
+	@Test
+	public void letsMockListGetWithAny() {
+		List<String> list = mock(List.class);
+		Mockito.when(list.get(Mockito.anyInt())).thenReturn("in28Minutes");	// ARGUMENT MATCHER
+		// If you are using argument matchers, all arguments
+		// have to be provided by matchers.
+		assertEquals("in28Minutes", list.get(0));
+		assertEquals("in28Minutes", list.get(1));
+	}
+	
+	@Test(excepted = RuntimeException.class)
+	public void letsMockList_throwAnException() {
+		List<String> list = mock(List.class);
+		Mockito.when(list.get(Mockito.anyInt())).thenThrow(new RuntimeException("Something");	// Throw An Exception
+		list.get(0);
+	}
+
+}
+ ``` 
+- BDD (Behavior Driven Development) (Given(setup) - When(actual method call) - Then(Asserts)) 
+ Make more readable and organized with bdd.
+ Example 1:
+ ```
+	@Test
+	public void usingMockito_UsingBDD() {
+		TodoService todoService = mock(TodoService.class);
+		TodoBusinessImpl todoBusinessImpl = new TodoBusinessImpl(todoService);
+		List<String> allTodos = Arrays.asList("Learn Spring MVC",
+				"Learn Spring", "Learn to Dance");
+
+		//given
+		given(todoService.retrieveTodos("Ranga")).willReturn(allTodos);  // instead of when  // GIVEN WILL RETURN 
+
+		//when
+		List<String> todos = todoBusinessImpl
+				.retrieveTodosRelatedToSpring("Ranga");
+
+		//then
+		assertThat(todos.size(), is(2));	// Syntax change
+	}
+ ```
+ Example 2:
+  ```
+ 	@Test
+	public void bddAliases_UsingGivenWillReturn() {
+		List<String> list = mock(List.class);
+
+		//given
+		given(list.get(Mockito.anyInt())).willReturn("in28Minutes");
+
+		//then
+		assertThat("in28Minutes", is(list.get(0)));
+		assertThat("in28Minutes", is(list.get(0)));
+	}
+   ```
+ - Verify how many times a method is called:
+  ```
+ 	@Test
+	public void letsTestDeleteNow() {
+
+		TodoService todoService = mock(TodoService.class);
+
+		List<String> allTodos = Arrays.asList("Learn Spring MVC",
+				"Learn Spring", "Learn to Dance");
+
+		when(todoService.retrieveTodos("Ranga")).thenReturn(allTodos);
+
+		TodoBusinessImpl todoBusinessImpl = new TodoBusinessImpl(todoService);
+
+		todoBusinessImpl.deleteTodosNotRelatedToSpring("Ranga");
+
+		verify(todoService).deleteTodo("Learn to Dance");
+
+		verify(todoService, Mockito.never()).deleteTodo("Learn Spring MVC");
+		then(todoService).should(never()).deleteTodo("Learn Spring MVC");    // More readable
+
+		verify(todoService, Mockito.never()).deleteTodo("Learn Spring");
+
+		verify(todoService, Mockito.times(1)).deleteTodo("Learn to Dance");
+		// atLeastOnce, atLeast
+
+	}
+   ```
+  - How to capture an argument which is passed to a mock?
+  Calling once:
+  ```
+  	@Test
+	public void captureArgument() {
+		ArgumentCaptor<String> argumentCaptor = ArgumentCaptor
+				.forClass(String.class);
+
+		TodoService todoService = mock(TodoService.class);
+
+		List<String> allTodos = Arrays.asList("Learn Spring MVC",
+				"Learn Spring", "Learn to Dance");
+		Mockito.when(todoService.retrieveTodos("Ranga")).thenReturn(allTodos);
+
+		TodoBusinessImpl todoBusinessImpl = new TodoBusinessImpl(todoService);
+		todoBusinessImpl.deleteTodosNotRelatedToSpring("Ranga");
+		Mockito.verify(todoService).deleteTodo(argumentCaptor.capture());
+
+		assertEquals("Learn to Dance", argumentCaptor.getValue());
+	}
+```
+Calling multiple times:
+  ```
+  	@Test
+	public void captureArgument() {
+		ArgumentCaptor<String> argumentCaptor = ArgumentCaptor
+				.forClass(String.class);
+
+		TodoService todoService = mock(TodoService.class);
+
+		List<String> allTodos = Arrays.asList("Learn",
+				"Learn Spring", "Learn to Dance");
+		Mockito.when(todoService.retrieveTodos("Ranga")).thenReturn(allTodos);
+
+		TodoBusinessImpl todoBusinessImpl = new TodoBusinessImpl(todoService);
+		todoBusinessImpl.deleteTodosNotRelatedToSpring("Ranga");
+		
+		// then(todoService).should().deleteTodo(argumentCaptor.capture()); excepted to called once
+		then(todoService).should(times(2)).deleteTodo(argumentCaptor.capture());
+
+		assertThat(argumentCaptor.getAllValues().size(), is(2));
+	}
+```
