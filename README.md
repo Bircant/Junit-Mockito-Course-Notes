@@ -278,3 +278,85 @@ Calling multiple times:
 		assertThat(argumentCaptor.getAllValues().size(), is(2));
 	}
 ```
+#VERIFY:
+- Verify simple invocation on mock:
+```
+List<String> mockedList = mock(MyList.class);
+mockedList.size();
+verify(mockedList).size();
+```
+- Verify number of interactions with mock:
+```
+List<String> mockedList = mock(MyList.class);
+mockedList.size();
+verify(mockedList, times(1)).size();
+```
+- Verify no interaction with the whole mock occurred:
+```
+List<String> mockedList = mock(MyList.class);
+verifyNoInteractions(mockedList);
+```
+- Verify no interaction with a specific method occurred:
+```
+List<String> mockedList = mock(MyList.class);
+verify(mockedList, times(0)).size();
+```
+-Verify there are no unexpected interactions — this should fail:
+```
+List<String> mockedList = mock(MyList.class);
+mockedList.size();
+mockedList.clear();
+verify(mockedList).size();
+verifyNoMoreInteractions(mockedList);
+```
+- Verify order of interactions:
+```
+List<String> mockedList = mock(MyList.class);
+mockedList.size();
+mockedList.add("a parameter");
+mockedList.clear();
+
+InOrder inOrder = Mockito.inOrder(mockedList);
+inOrder.verify(mockedList).size();
+inOrder.verify(mockedList).add("a parameter");
+inOrder.verify(mockedList).clear();
+```
+- Verify an interaction has not occurred:
+```
+List<String> mockedList = mock(MyList.class);
+mockedList.size();
+verify(mockedList, never()).clear();
+```
+- Verify an interaction has occurred at least a certain number of times:
+```
+List<String> mockedList = mock(MyList.class);
+mockedList.clear();
+mockedList.clear();
+mockedList.clear();
+
+verify(mockedList, atLeast(1)).clear();
+verify(mockedList, atMost(10)).clear();
+```
+-Verify interaction with exact argument:
+```
+List<String> mockedList = mock(MyList.class);
+mockedList.add("test");
+verify(mockedList).add("test");
+```
+- Verify interaction with flexible/any argument:
+```
+List<String> mockedList = mock(MyList.class);
+mockedList.add("test");
+verify(mockedList).add(anyString());
+```
+- Verify interaction using argument capture:
+```
+List<String> mockedList = mock(MyList.class);
+mockedList.addAll(Lists.<String> newArrayList("someElement"));
+
+ArgumentCaptor<List<String>> argumentCaptor = ArgumentCaptor.forClass(List.class);
+verify(mockedList).addAll(argumentCaptor.capture());
+
+List<String> capturedArgument = argumentCaptor.getValue();
+assertThat(capturedArgument).contains("someElement");
+```
