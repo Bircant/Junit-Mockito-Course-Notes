@@ -278,7 +278,7 @@ Calling multiple times:
 		assertThat(argumentCaptor.getAllValues().size(), is(2));
 	}
 ```
-#VERIFY:
+# VERIFY:
 - Verify simple invocation on mock:
 ```
 List<String> mockedList = mock(MyList.class);
@@ -360,3 +360,4 @@ verify(mockedList).addAll(argumentCaptor.capture());
 List<String> capturedArgument = argumentCaptor.getValue();
 assertThat(capturedArgument).contains("someElement");
 ```
+ # ArgumentCaptor:
