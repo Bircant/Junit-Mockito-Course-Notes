@@ -23,7 +23,7 @@ Notes:
 - Exceptions => @Test(expected = NullPointerException.class)
 - Testing performance => @Test(timeout = 1000) (miliseconds)
 - Parameterized Tests: 
-
+```
   @RunWith(Parameterized.class)
   public class TestParameterizedTest {
       private String input;
@@ -46,6 +46,6 @@ Notes:
          assertEquals(expectedOutput, helper.truncateAInFirst2Positions(input));
       }
   }
-  
+ ``` 
   - JUnit Test Suite - choose which classes should include in suite for organization.
       
