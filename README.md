@@ -1,4 +1,7 @@
 # Junit-Mockito-Course-Notes
+![UC-08b22f35-551a-4859-93fb-222aeb7a2477](https://user-images.githubusercontent.com/44335398/209578940-f5cc4b25-0c15-4bb6-b0a3-2b5d451ed81e.jpg)
+
+
 Udemy - Learn Java Unit Testing with Junit &amp; Mockito in 30 Steps Course Notes
 
 + Eclipse shortcuts - refactoring in Eclipse:
