@@ -390,7 +390,58 @@ assertThat(capturedArgument).contains("someElement");
 	- can not mock static methods
 	- can not mock final methods
 	- can not mock private methods
+
+# Powermock with Mockito:
+- Mocking Static Method:
+	- mock ststic methods.
+	```
+	@RunWith(PowerMockRunner.class)
+	@PrepareForTest({ UtilityClass.class})   // Class containing static method to be mocked
+
+	PowerMockito.mockStatic(UtilityClass.class);   // Call PowerMockito.mockStatic with class containing static method to be mocked
+	when(UtilityClass.staticMethod(anyLong())).thenReturn(150);
+
+	PowerMockito.verifyStatic();
+	UtilityClass.staticMethod(1 + 2 + 3);
+	```
+- Invoking Private Methods:	
+	long value = (Long) Whitebox.invokeMethod(systemUnderTest,"privateMethodUnderTest");  // Firtst object then "method name"
+- Mocking a Constructor: Hangi paketin altındaysa o class'ı hazırlamamız gerekiyor. + override 
+	
+```
+	public class SystemUnderTest {
+		private Dependency dependency;
+
+		public int methodUsingAnArrayListConstructor() {
+			ArrayList list = new ArrayList();
+			return list.size();
+	}
 	
 	
-	
-	
+	@RunWith(PowerMockRunner.class)
+	@PrepareForTest({ SystemUnderTest.class /*To be able to mock the Constructor, we need to add in the Class that creates the new object*/})
+	public class PowerMockitoMockingConstructorTest {
+
+		private static final int SOME_DUMMY_SIZE = 100;
+
+		@Mock
+		Dependency dependencyMock;
+
+		@InjectMocks
+		SystemUnderTest systemUnderTest;
+
+		@Test
+		public void powerMockito_MockingAConstructor() throws Exception {
+
+		ArrayList<String> mockList = mock(ArrayList.class);
+
+		stub(mockList.size()).toReturn(SOME_DUMMY_SIZE);
+
+		PowerMockito.whenNew(ArrayList.class).withAnyArguments().thenReturn(
+				mockList);
+
+		int size = systemUnderTest.methodUsingAnArrayListConstructor();
+
+		assertEquals(SOME_DUMMY_SIZE, size);
+	}
+```
