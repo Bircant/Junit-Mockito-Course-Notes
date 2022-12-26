@@ -361,3 +361,36 @@ List<String> capturedArgument = argumentCaptor.getValue();
 assertThat(capturedArgument).contains("someElement");
 ```
  # ArgumentCaptor:
+- To clarify, in Mockito, this generally means avoiding using an ArgumentCaptor with Mockito.when. With stubbing, we should use an ArgumentMatcher instead.
+
+# Mockito Advanced:
+- Hamcrest Matchers: more easy to read - synthax
+- Mockito Annotations - @Mock, @InjectMocks, @RunWith, @Captor
+	- @Mock: Create that kind of mock and make it useable with this we can get rid of declaration of mocks( TodoService todoServiceMock = mock(TodoService.class))
+	- Use @RunWith(MockitoJUnitRunner.class) 
+	- @InjectMocks: Check all the dependencys and added @Mocks and matches the types. (No need for this line : TodoBusinessImpl todoBusinessImpl = new TodoBusinessImpl(todoService);)
+	- @Captor: Create argument captor, 
+		Example:
+			 @Captor
+			 ArgumentCaptor<String> argumentCaptor;
+			 
+- Mockito JUnit Rule: 
+	- Will be run before and after the test
+	- All the rules should be public.
+	- With rule, you can use multiple rules.With runners you can have only one runner. 
+	@Rule
+	public MockitoRule mockitoRule = MockitoJUnit.rule();   ====> With this line of code you can remove runwith( @RunWith(MockitoJUnitRunner.class) 
+	
+- Mockito Spy:
+	- retain mocked classes properties.
+	- partial mock.
+	- with spy mock can retain its behavior but when we want to change it we can! And we can keep track of it.   
+- Why does Mockito not allow stubbing final & private methods?
+	- can not mock final calsses 
+	- can not mock static methods
+	- can not mock final methods
+	- can not mock private methods
+	
+	
+	
+	
